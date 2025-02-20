@@ -78,7 +78,9 @@ public class testTeleOP extends AutonomousBaseV1 {
             } else {
                 score.setPower(0);
             }
-
+            if(gamepad2.dpad_down) {
+                grab();
+            }
 
 
             if (gamepad2.left_bumper) {

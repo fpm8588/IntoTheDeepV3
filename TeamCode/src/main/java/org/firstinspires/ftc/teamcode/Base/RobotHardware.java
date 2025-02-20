@@ -29,6 +29,8 @@ public abstract class RobotHardware extends RobotBaseV1 {
     protected DcMotor secondJoint;
     // Declares servos for arm(just for the claw)
     protected Servo claw;
+    protected Servo theWrist;
+    protected Servo thePinch;
     //Declares Linear Slide motors
     protected DcMotor lift;
     protected DcMotor score;
@@ -75,6 +77,8 @@ public abstract class RobotHardware extends RobotBaseV1 {
         // set up arm motors
         // set up pincer servo
         claw = hardwareMap.servo.get("claw");
+        thePinch = hardwareMap.servo.get("thepinch");
+        theWrist = hardwareMap.servo.get("thewrist");
 
         //set up linear slides
         lift = hardwareMap.dcMotor.get("lift");
@@ -273,10 +277,13 @@ public abstract class RobotHardware extends RobotBaseV1 {
         }
         protected void grab() {
         claw.setPosition(SERVO_GRAB_POSITION);
+
     }
         protected void release() {
         claw.setPosition(SERVO_RELEASE_POSITION);
+
     }
+
 }
 
 
