@@ -33,9 +33,9 @@ public abstract class RobotHardware extends RobotBaseV1 {
     //Declares Linear Slide motors
     protected DcMotor lift;
     protected DcMotor score;
-    public PIDController armPID;
+    protected DcMotor intake;
     public static double armTarget;
-    public static double p, i, d;
+
 
 
     // declares gyro and gyro variables
@@ -65,7 +65,7 @@ public abstract class RobotHardware extends RobotBaseV1 {
         leftBack = hardwareMap.dcMotor.get("lb");
         rightFront = hardwareMap.dcMotor.get("rf");
         rightBack = hardwareMap.dcMotor.get("rb");
-        armPID = new PIDController(p, i, d);
+
 
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -88,6 +88,7 @@ public abstract class RobotHardware extends RobotBaseV1 {
         //set up linear slides
         lift = hardwareMap.dcMotor.get("lift");
         score = hardwareMap.dcMotor.get("score");
+        intake = hardwareMap.dcMotor.get("intake");
 
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -95,6 +96,9 @@ public abstract class RobotHardware extends RobotBaseV1 {
         score.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         score.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         score.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         // initialize gyro if starting in autonomous
@@ -289,19 +293,7 @@ public abstract class RobotHardware extends RobotBaseV1 {
 
     }
 
-    /*public void ArmLoop() {
 
-        armPID.setPID(p, i, d);
-        int armPos = score.getCurrentPosition();
-        double apid = armPID.calculate(armPos, armTarget);
-        double aff = Math.cos(Math.toRadians(armTarget / armPPR)) * f;
-        double armPower = aff + apid;
-        score.setPower(armPower);
-
-        // method to stop the robot
-    }
-
-     */
 }
 
 

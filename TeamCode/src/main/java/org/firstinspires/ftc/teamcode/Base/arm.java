@@ -41,6 +41,7 @@ public class arm {
         score = opMode.hardwareMap.get(DcMotor.class, "score");
         claw = opMode.hardwareMap.get(Servo.class, "claw");
 
+        score.setDirection(DcMotorSimple.Direction.REVERSE);
         score.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         score.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }

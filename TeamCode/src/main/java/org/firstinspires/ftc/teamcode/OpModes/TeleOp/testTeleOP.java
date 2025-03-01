@@ -82,14 +82,35 @@ public class testTeleOP extends AutonomousBaseV1 {
                 grab();
             }
 
-
+            // The Zealot
+            if (gamepad2.dpad_down) {
+                intake.setPower(-1);
+            } else if (gamepad2.a) {
+                intake.setPower(1);
+            } else {
+                intake.setPower(0);
+            }
+            //Pincer
             if (gamepad2.left_bumper) {
                 grab();
             }
             if (gamepad2.right_bumper) {
                 release();
             }
-
+            // Wrist for intake
+            if (gamepad2.x) {
+                theWrist.setPosition(0.7);
+            }
+            if (gamepad2.dpad_left) {
+                theWrist.setPosition(0.3);
+            }
+            // Pincer for intake
+            if (gamepad2.right_trigger > 0.1) {
+                thePinch.setPosition(0.9);
+            }
+            if (gamepad2.left_trigger >0.1) {
+                thePinch.setPosition(0.65);
+            }
         }
     }
 }
