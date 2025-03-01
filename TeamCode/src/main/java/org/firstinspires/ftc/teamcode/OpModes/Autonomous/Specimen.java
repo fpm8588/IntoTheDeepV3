@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Base.arm;
 
 @Autonomous(name = "Push Samples to Human Player" )
 public class Specimen extends AutonomousBaseV1 {
-    public arm am = new arm(this);
+
     @Override
     public void runOpMode() {
-
+        arm am = new arm(this);
         //set up robot for teleop
         initRobotV2(RobotRunType.AUTONOMOUS);
 
