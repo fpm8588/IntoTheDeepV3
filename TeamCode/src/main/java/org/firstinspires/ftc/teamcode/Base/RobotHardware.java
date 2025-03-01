@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Base;
 
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import  com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,8 +18,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 public abstract class RobotHardware extends RobotBaseV1 {
 
 
-
-
     // Declares drive motors
     protected DcMotor leftFront;
     protected DcMotor leftBack;
@@ -34,6 +33,9 @@ public abstract class RobotHardware extends RobotBaseV1 {
     //Declares Linear Slide motors
     protected DcMotor lift;
     protected DcMotor score;
+    public PIDController armPID;
+    public static double armTarget;
+    public static double p, i, d;
 
 
     // declares gyro and gyro variables
@@ -45,7 +47,7 @@ public abstract class RobotHardware extends RobotBaseV1 {
 
     //final variables for moving robot to distance
     protected final double WHEEL_DIAMETER = 4;
-    protected final double WHEEL_CIRC = WHEEL_DIAMETER*Math.PI;
+    protected final double WHEEL_CIRC = WHEEL_DIAMETER * Math.PI;
     protected final double ultraplanetary_PPR = 28;
 
     protected final double neverest20ppr = 537.6;
@@ -53,14 +55,17 @@ public abstract class RobotHardware extends RobotBaseV1 {
      */
     protected final double DRIVE_GEAR_RATIO = 20;
     protected final int ARM_RATIO = 80;
+    protected final double armPPR = 384.5;
     private final double SERVO_GRAB_POSITION = 0;
     private final double SERVO_RELEASE_POSITION = 0.2;
-    protected void initRobotV2 (RobotRunType robotRunType){
+
+    protected void initRobotV2(RobotRunType robotRunType) {
         // set up drive motors
         leftFront = hardwareMap.dcMotor.get("lf");
         leftBack = hardwareMap.dcMotor.get("lb");
         rightFront = hardwareMap.dcMotor.get("rf");
         rightBack = hardwareMap.dcMotor.get("rb");
+        armPID = new PIDController(p, i, d);
 
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -123,8 +128,6 @@ public abstract class RobotHardware extends RobotBaseV1 {
             //post to telemetry when gyro is calibrated
 
 
-
-
             telemetry.addData("Mode", "waiting for start");
 //            telemetry.addData("imu calibration", imu.getCalibrationStatus().toString());
             telemetry.update();
@@ -134,14 +137,14 @@ public abstract class RobotHardware extends RobotBaseV1 {
 
 
     }
-    protected void setDrivePower (double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower) {
+
+    protected void setDrivePower(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower) {
         leftFront.setPower(leftFrontPower);
         leftBack.setPower(leftBackPower);
         rightFront.setPower(rightFrontPower);
         rightBack.setPower(rightBackPower);
     }
 
-    // method to stop the robot
 
     protected void stopDrive(){setDrivePower(0, 0, 0, 0);}
 
@@ -213,7 +216,9 @@ public abstract class RobotHardware extends RobotBaseV1 {
                 this.rr = rr;
             }
         }
-
+        public void setArmTarget(double b) {
+            armTarget = b;
+    }
         protected Wheels getWheels(double direction, double velocity, double rotationVelocity) {
             final double vd = velocity;
             final double td = direction;
@@ -284,6 +289,19 @@ public abstract class RobotHardware extends RobotBaseV1 {
 
     }
 
+    /*public void ArmLoop() {
+
+        armPID.setPID(p, i, d);
+        int armPos = score.getCurrentPosition();
+        double apid = armPID.calculate(armPos, armTarget);
+        double aff = Math.cos(Math.toRadians(armTarget / armPPR)) * f;
+        double armPower = aff + apid;
+        score.setPower(armPower);
+
+        // method to stop the robot
+    }
+
+     */
 }
 
 

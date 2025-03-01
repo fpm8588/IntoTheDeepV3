@@ -20,7 +20,9 @@ import java.util.regex.Pattern
 apply plugin: 'com.android.application'
 
 android {
-
+    repositories {
+        mavenCentral()
+    }
     compileSdkVersion 30
 
     signingConfigs {
